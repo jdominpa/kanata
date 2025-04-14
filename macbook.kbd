@@ -1,0 +1,47 @@
+(defcfg process-unmapped-keys yes)
+
+(defsrc
+          u i o p
+  a s d f j k l ;
+          m , . /
+  lsft rsft
+  spc
+)
+
+(deflayer alpha
+                              u      i      o      p
+  @hrm-a @hrm-s @hrm-d @hrm-f @hrm-j @hrm-k @hrm-l @hrm-scln
+                              m      ,      .      /
+  @os-lsft @os-rsft
+  @nav-spc
+)
+
+(deflayer navigation
+                      ret  bspc del  _
+  lmet lalt lctl lsft left down up   rght
+                      home pgdn pgup end
+  @os-lsft @os-rsft
+  @nav-spc
+)
+
+(defalias
+  hrm-a    (tap-hold-release $tap-timeout $hold-timeout a lmet)
+  hrm-s    (tap-hold-release $tap-timeout $hold-timeout s lalt)
+  hrm-d    (tap-hold-release $tap-timeout $hold-timeout d lctl)
+  hrm-f    (tap-hold-release $tap-timeout $hold-timeout f lsft)
+  hrm-j    (tap-hold-release $tap-timeout $hold-timeout j rsft)
+  hrm-k    (tap-hold-release $tap-timeout $hold-timeout k rctl)
+  hrm-l    (tap-hold-release $tap-timeout $hold-timeout l ralt)
+  hrm-scln (tap-hold-release $tap-timeout $hold-timeout ; rmet)
+
+  os-lsft (one-shot-press $os-timeout lsft)
+  os-rsft (one-shot-press $os-timeout rsft)
+
+  nav-spc (tap-hold-release $tap-timeout $hold-timeout spc (layer-while-held navigation))
+)
+
+(defvar
+  tap-timeout 75
+  hold-timeout 200
+  os-timeout 1000
+)
